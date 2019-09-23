@@ -1,5 +1,6 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 {% macro display(category_list) %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="row">
 	{% if category_list %}
 		{% for category in category_list %}
@@ -14,8 +15,8 @@
 				</blockquote>
 				
 				<a href="{{url_for('main.new_comment',pitch_id = category.id)}}" class="btn btn-info"> Add a comment</a>
-				<a href="{{url_for('main.upvote',pitch_id = category.id)}}"><i class="fa fa-thumbs-up" style="font-size:24px;color:lightblue"></i>Upvote <span>{{category.upvotes.count()}}</span></a>
-				<a href="{{url_for('main.downvote',pitch_id = category.id)}}"><i class="fa fa-thumbs-down" style="font-size:24px;color:lightblue"></i>Downvote <span>{{category.downvotes.count()}}</span></a>
+				<a href="{{url_for('main.upvote',pitch_id = category.id)}}"><i class="fa fa-thumbs-up" style="font-size:24px;color:lightblue"></i> <span>{{category.upvotes.count()}}</span></a>
+				<a href="{{url_for('main.downvote',pitch_id = category.id)}}"><i class="fa fa-thumbs-down" style="font-size:24px;color:lightblue"></i> <span>{{category.downvotes.count()}}</span></a>
 
 
 			</div>
@@ -36,8 +37,8 @@
 			{% if comments %}
 			{% for comment in comments %}
 				<div class="row text-center">
-						<a><p style="color: brown">{{ comment.description }}</p></a>
-						<small> posted by {{comment.user.username}}</small>
+						<a><p style="color: black">{{ comment.description }}</p></a>
+						<small> Posted by {{comment.user.username}}</small>
 				</div>
 			{% endfor %}
 			{% else %}
