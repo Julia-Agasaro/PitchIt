@@ -13,6 +13,7 @@
      <a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a>
    {% endif %}
  </div>
+ 
  <div class="col-md-4">
    {% if user.profile_pic_path %}
    <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail">
@@ -26,6 +27,29 @@
      {% endif %}
    </form>
  </div>
+</div>
+<div>
+  <h1 style="color:lightblue; text-align: center;text-underline-position: below">Your Pitches:</h1>
+  {% for pitch in description %}
+  <div class="col-md-6">
+    <div class="thumbnail text-center">
+    
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <h2>{{pitch.description}}</h2>
+        <footer class="blockquote-footer"> Posted by {{pitch.user.username}}</footer>
+      </blockquote>
+      
+      <a href="{{url_for('main.new_comment',pitch_id = pitch.id)}}" class="btn btn-info"> Add a comment</a>
+      <a href="{{url_for('main.upvote',pitch_id = pitch.id)}}"><i class="fa fa-thumbs-up" style="font-size:24px;color:lightblue"></i>Upvote <span>{{pitch.upvotes.count()}}</span></a>
+      <a href="{{url_for('main.downvote',pitch_id = pitch.id)}}"><i class="fa fa-thumbs-down" style="font-size:24px;color:lightblue"></i>Downvote <span>{{pitch.downvotes.count()}}</span></a>
+
+
+    </div>
+  </div>
+
+  </div>
+     {% endfor %}
 </div>
 </div>
 {% endblock %}
