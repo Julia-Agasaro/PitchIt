@@ -18,6 +18,7 @@ class User(UserMixin,db.Model):
     email = db.Column(db.String(255),unique = True,index = True)
     category = db.Column(db.String(255), unique = True,index = True)
     password_hash = db.Column(db.String(255))
+    pitch = db.relationship('Pitch', backref='user', lazy='dynamic')
     comment = db.relationship('Comment', backref = 'user', lazy = 'dynamic')
    
     
@@ -139,9 +140,3 @@ class Downvote(db.Model):
 
     def __repr__(self):
         return f'{self.user_id}:{self.pitch_id}'
-
-
-
-
-
-
