@@ -1,13 +1,11 @@
-from flask import render_template,request,redirect,url_for,abort
+from flask import render_template,request,redirect,url_for,abort, flash
 from . import main
-from .forms import PitchForm,CommentForm
-from ..models import User,Pitch,Comment,Upvote,Downvote
-from flask_login import login_required,current_user
-from .. import db,photos
-
-import markdown2  
-
-
+from flask_login import login_required, current_user
+from ..models import Pitch, User,Comment,Upvote,Downvote
+from .forms import PitchForm, CommentForm, UpvoteForm, DownvoteForm
+from flask.views import View,MethodView
+from .. import db
+import markdown2
 
 
 # Views
@@ -21,13 +19,13 @@ def index():
     title = 'Home'
     pickuplines = Pitch.query.filter_by(category="pickuplines")
     interviewpitch = Pitch.query.filter_by(category = "interviewpitch")
-    promotionpitch = Pitch.query.filter_by(category = "promotionpitch")
-    productpitch = Pitch.query.filter_by(category = "productpitch")
+    religiouspitch = Pitch.query.filter_by(category = "religiouspitch")
+    fashionpitch = Pitch.query.filter_by(category = "fashionpitch")
 
-    
+    upvotes = Upvote.get_all_upvotes(pitch_id=Pitch.id)
     
 
-    return render_template('home.html', title = title, pitch = pitch, pickuplines=pickuplines, interviewpitch= interviewpitch, promotionpitch = promotionpitch, productpitch = productpitch)
+    return render_template('home.html', title = title, pitch = pitch, pickuplines=pickuplines, interviewpitch= interviewpitch, religiouspitch = religiouspitch, fashionpitch = fashionpitch)
     
 
 
@@ -37,13 +35,12 @@ def index():
 @login_required
 def new_pitch():
     form = PitchForm()
-    # my_upvotes = Upvote.query.filter_by(pitch_id = Pitch.id)
+    my_upvotes = Upvote.query.filter_by(pitch_id = Pitch.id)
     if form.validate_on_submit():
         description = form.description.data
         title = form.title.data
         user_id = current_user
         category = form.category.data
-        print(current_user._get_current_object().id)
         new_pitch = Pitch(user_id =current_user._get_current_object().id, title = title,description=description,category=category)
         db.session.add(new_pitch)
         db.session.commit()
@@ -68,7 +65,7 @@ def new_comment(pitch_id):
 
     all_comments = Comment.query.filter_by(pitch_id = pitch_id).all()
     return render_template('comments.html', form = form, comment = all_comments, pitch = pitch )
-
+    
 @main.route('/user/<uname>')
 def profile(uname):
    user = User.query.filter_by(username = uname).first()
@@ -106,4 +103,3 @@ def downvote(pitch_id):
     new_downvote = Downvote(pitch_id=pitch_id, user = current_user)
     new_downvote.save_downvotes()
     return redirect(url_for('main.index'))
-
