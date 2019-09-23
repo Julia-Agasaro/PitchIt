@@ -18,9 +18,11 @@ class User(UserMixin,db.Model):
     email = db.Column(db.String(255),unique = True,index = True)
     category = db.Column(db.String(255), unique = True,index = True)
     password_hash = db.Column(db.String(255))
+    bio = db.Column(db.String(255))
+    profile_pic_path = db.Column(db.String())
     pitch = db.relationship('Pitch', backref='user', lazy='dynamic')
     comment = db.relationship('Comment', backref = 'user', lazy = 'dynamic')
-   
+    photos = db.relationship('PhotoProfile',backref = 'user',lazy = "dynamic")
     
     
     upvotes = db.relationship('Upvote', backref = 'user', lazy = 'dynamic')
@@ -39,6 +41,13 @@ class User(UserMixin,db.Model):
 
     def __repr__(self):
         return f'User {self.username}'
+
+class PhotoProfile(db.Model):
+    __tablename__ = 'profile_photos'
+
+    id = db.Column(db.Integer,primary_key = True)
+    pic_path = db.Column(db.String())
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
 
 class Pitch(db.Model):
     '''
