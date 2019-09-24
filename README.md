@@ -1,6 +1,6 @@
 # PitchIt
 A web application that lets users submit pitches based on different categories
-[check it out]
+[check it out](https://pitchall.herokuapp.com/)
 
 # Author
 Julia Agasaro
