@@ -4,7 +4,7 @@ class Config:
 
     
     SECRET_KEY = os.environ.get('SECRET_KEY')
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wecode:Agasaro1@localhost/pitch'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wecode:Agasaro1@localhost/blog'
     UPLOADED_PHOTOS_DEST ='app/static/photos'
    
     #  email configurations
@@ -31,7 +31,7 @@ class ProdConfig(Config):
 
 
 class DevConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wecode:Agasaro1@localhost/pitch'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wecode:Agasaro1@localhost/blog'
     DEBUG = True
 
 config_options = {
