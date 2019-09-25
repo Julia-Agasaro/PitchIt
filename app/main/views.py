@@ -2,7 +2,7 @@ from flask import render_template,request,redirect,url_for,abort, flash
 from . import main
 from flask_login import login_required, current_user
 from ..models import Pitch, User,Comment,Upvote,Downvote,PhotoProfile
-
+from .forms import PitchForm, CommentForm, UpvoteForm
 from flask.views import View,MethodView
 from .. import db,photos
 import markdown2
@@ -23,6 +23,7 @@ def index():
     fashionpitch = Pitch.query.filter_by(category = "fashion pitch")
 
     upvotes = Upvote.get_all_upvotes(pitch_id=Pitch.id)
+    downvotes = Downvote.get_all_upvotes(pitch_id=Pitch.id)
     
 
     return render_template('home.html', title = title, pitch = pitch, pickuplines=pickuplines, interviewpitch= interviewpitch, religiouspitch = religiouspitch, fashionpitch = fashionpitch)
@@ -36,6 +37,7 @@ def index():
 def new_pitch():
     form = PitchForm()
     my_upvotes = Upvote.query.filter_by(pitch_id = Pitch.id)
+    my_downvotes = Downvote.query.filter_by(pitch_id = Pitch.id)
     if form.validate_on_submit():
         description = form.description.data
         title = form.title.data
